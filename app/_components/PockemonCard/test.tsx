@@ -16,7 +16,7 @@ describe("PockemonCard", () => {
       />
     );
 
-    expect(getByText("bulbasaur")).toBeInTheDocument();
+    expect(getByText(/bulbasaur/i)).toBeInTheDocument();
     expect(getByText("grass")).toBeInTheDocument();
   });
 
@@ -34,7 +34,7 @@ describe("PockemonCard", () => {
     );
 
     expect(getByTestId("pokemon-card-initials")).toBeInTheDocument();
-    expect(getByText("ivysaur")).toBeInTheDocument();
+    expect(getByText(/ivysaur/i)).toBeInTheDocument();
     expect(getByText("poison")).toBeInTheDocument();
   });
 });

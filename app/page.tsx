@@ -6,6 +6,7 @@ import { Pokemon } from "./_types/global";
 import { useSearchPokemonByName } from "./_hooks/useSearchPokemonByName";
 import { InputSearch } from "./_components/InputSearch";
 import { PokemonList } from "./_components/PokemonList";
+import { CurrentYear } from "./_components/CurrentYear";
 
 export default function Home() {
   const [term, setTerm] = useState<string>("");
@@ -17,8 +18,9 @@ export default function Home() {
     offset: 0,
   });
 
-  const { pokemon, error: pokemonError } =
-    useSearchPokemonByName(debouncedTerm);
+  const { pokemon, error: pokemonError } = useSearchPokemonByName(
+    debouncedTerm.toLocaleLowerCase()
+  );
 
   useEffect(() => {
     const timerId = setTimeout(() => {
@@ -43,30 +45,31 @@ export default function Home() {
   };
 
   return (
-    <div className="py-4 px-10 md:px-48 :py-8">
-      <div>
-        <InputSearch
-          value={term}
-          onChange={handleOnChange}
-          placeholder="Search for a Pokémon"
+    <main className="py-4 px-10 md:px-48 :py-8">
+      <InputSearch
+        value={term}
+        onChange={handleOnChange}
+        placeholder="Search for a Pokémon"
+      />
+
+      {errorList && pokemonError && (
+        <h1 className="text-orange-500 font-extrabold text-5xl mt-10">
+          Error fetching the list of pokemons
+        </h1>
+      )}
+
+      <section className="p-4 mt-4 max-h-[600px] overflow-y-auto box-border shadow-xl rounded-lg">
+        <PokemonList
+          pokemons={pokemonContent as Pokemon[]}
+          limit={10}
+          offset={0}
+          hasMore={true}
+          hasASearchTerm={debouncedTerm.length > 0}
         />
-
-        {errorList && pokemonError && (
-          <h1 className="text-orange-500 font-extrabold text-5xl mt-10">
-            Error fetching the list of pokemons
-          </h1>
-        )}
-
-        <div className="p-4 mt-4 max-h-[600px] overflow-y-auto box-border shadow-xl rounded-lg">
-          <PokemonList
-            pokemons={pokemonContent as Pokemon[]}
-            limit={10}
-            offset={0}
-            hasMore={true}
-            hasASearchTerm={debouncedTerm.length > 0}
-          />
-        </div>
-      </div>
-    </div>
+      </section>
+      <section>
+        <CurrentYear />
+      </section>
+    </main>
   );
 }

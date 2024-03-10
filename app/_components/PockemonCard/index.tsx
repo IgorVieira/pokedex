@@ -26,6 +26,10 @@ function getInitials(name: string): string {
   return initials.toUpperCase();
 }
 
+function capitalizedWord(word: string): string {
+  return word?.charAt(0)?.toUpperCase() + word?.slice(1) ?? "";
+}
+
 export const PokemonCard = (pokemon: PokemonCardProps) => {
   return (
     <article className="cursor-pointer flex flex-row items-center justify-start gap-4 my-4 transition-all duration-300 hover:bg-purple-300 hover:p-4 hover:rounded-lg">
@@ -47,7 +51,7 @@ export const PokemonCard = (pokemon: PokemonCardProps) => {
         </Avatar>
       </div>
       <div className="flex flex-col">
-        <div>{pokemon?.name}</div>
+        <div>{pokemon?.name && capitalizedWord(pokemon?.name)}</div>
         <div className="flex flex-row gap-2 w-32">
           {pokemon?.types?.map((item) => (
             <Badge key={item.type.name}>{item.type.name}</Badge>
