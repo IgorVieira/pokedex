@@ -12,12 +12,13 @@ export default function Home() {
   const [debouncedTerm, setDebouncedTerm] = useState<string>("");
   const [pokemonContent, setPokemonContent] = useState<Pokemon[]>([]);
 
-  const { pokemons } = usePokemonList({
+  const { pokemons, error: errorList } = usePokemonList({
     limit: 10,
     offset: 0,
   });
 
-  const { pokemon } = useSearchPokemonByName(debouncedTerm);
+  const { pokemon, error: pokemonError } =
+    useSearchPokemonByName(debouncedTerm);
 
   useEffect(() => {
     const timerId = setTimeout(() => {
@@ -49,6 +50,13 @@ export default function Home() {
           onChange={handleOnChange}
           placeholder="Search for a Pokémon"
         />
+
+        {errorList && pokemonError && (
+          <h1 className="text-orange-500 font-extrabold text-5xl mt-10">
+            Error fetching the list of pokemons
+          </h1>
+        )}
+
         <div className="p-4 mt-4 max-h-[600px] overflow-y-auto box-border shadow-xl rounded-lg">
           <PokemonList
             pokemons={pokemonContent as Pokemon[]}
