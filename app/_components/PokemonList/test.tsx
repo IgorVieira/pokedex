@@ -6,7 +6,7 @@ jest.mock("../.././lib/utils", () => ({
   cn: jest.fn(),
 }));
 
-describe.only("PokemonList", () => {
+describe("PokemonList", () => {
   it("renders the list of pokemons", () => {
     const pokemons = [
       { id: 1, name: "Pikachu" },
